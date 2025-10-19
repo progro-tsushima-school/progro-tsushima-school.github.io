@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>リアクションタイマー</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root { 
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --warning: #ffc107;
+    --bg: #f8f9fa;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --border: #dee2e6;
+  }
+  
+  * { box-sizing: border-box; }
+  
+  body { 
+    margin: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    background: var(--bg); 
+    color: var(--text-primary); 
+    display: grid; 
+    place-items: center; 
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  .card { 
+    width: min(500px, 100%); 
+    background: #fff; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  
+  header { 
+    background: var(--primary); 
+    color: #fff; 
+    padding: 20px; 
+    font-weight: 600; 
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .pad { padding: 24px; }
+  
+  .screen { 
+    height: 180px; 
+    border-radius: 6px; 
+    display: grid; 
+    place-items: center; 
+    color: #fff; 
+    font-size: 20px; 
+    font-weight: 500;
+    user-select: none; 
+    cursor: pointer; 
+    transition: background-color 0.2s ease;
+    border: 2px solid var(--border);
+  }
+  
+  .wait { 
+    background: var(--secondary);
+  }
+  
+  .go { 
+    background: var(--success);
+  }
+  
+  .idle { 
+    background: var(--secondary);
+  }
+  
+  .row { 
+    display: flex; 
+    gap: 12px; 
+    margin-top: 20px; 
+    flex-wrap: wrap; 
+  }
+  
+  button { 
+    flex: 1; 
+    min-width: 120px; 
+    padding: 12px 16px; 
+    border: none; 
+    border-radius: 6px; 
+    background: var(--primary); 
+    color: #fff; 
+    font-size: 16px; 
+    font-weight: 500;
+    cursor: pointer; 
+    transition: background-color 0.2s ease;
+  }
+  
+  button:hover { 
+    background: #0056b3;
+  }
+  
+  button:disabled { 
+    opacity: 0.6; 
+    cursor: not-allowed; 
+  }
+  
+  .stats { 
+    display: flex; 
+    gap: 12px; 
+    margin-top: 20px; 
+    flex-wrap: wrap; 
+  }
+  
+  .stat { 
+    flex: 1; 
+    background: #f8f9fa; 
+    border: 1px solid var(--border); 
+    border-radius: 6px; 
+    padding: 16px 12px; 
+    text-align: center;
+  }
+  
+  .stat b { 
+    font-size: 20px; 
+    color: var(--primary);
+    font-weight: 600;
+  }
+  
+  small { 
+    color: var(--text-secondary); 
+    font-size: 12px;
+  }
+  
+  .instruction {
+    margin-top: 16px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <header>⏱️ リアクションタイマー</header>
+    <div class="pad">
+      <div id="screen" class="screen idle">Start を押してね</div>
+      <div class="row">
+        <button id="startBtn">Start</button>
+        <button id="resetBtn">Reset</button>
+      </div>
+      <div class="stats">
+        <div class="stat">今回 <br><b id="last">–</b><br><small>ms</small></div>
+        <div class="stat">ベスト <br><b id="best">–</b><br><small>ms</small></div>
+        <div class="stat">回数 <br><b id="count">0</b></div>
+      </div>
+      <div class="instruction">
+        🌟 緑になったらすぐクリック！早すぎ（青のまま）にクリックするとミスになります。
+      </div>
+    </div>
+  </div>
+<script>
+(() => {
+  const screen = document.getElementById('screen');
+  const startBtn = document.getElementById('startBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const lastEl = document.getElementById('last');
+  const bestEl = document.getElementById('best');
+  const countEl = document.getElementById('count');
+
+  let state = 'idle'; // idle -> waiting -> go
+  let timerId = null;
+  let startTime = 0;
+  let best = null;
+  let count = 0;
+
+  function setScreen(mode, text){
+    screen.className = 'screen ' + mode;
+    screen.textContent = text;
+  }
+
+  function start(){
+    if(state !== 'idle') return;
+    state = 'waiting';
+    setScreen('wait','青のまま待って… 緑になったらクリック！');
+    startBtn.disabled = true;
+    const delay = 800 + Math.floor(Math.random()*2200);
+    timerId = setTimeout(()=>{
+      state = 'go';
+      startTime = performance.now();
+      setScreen('go','今だ！クリック！');
+    }, delay);
+  }
+
+  function reset(){
+    if(timerId) clearTimeout(timerId);
+    state = 'idle';
+    setScreen('idle','Start を押してね');
+    startBtn.disabled = false;
+  }
+
+  screen.addEventListener('click', ()=>{
+    if(state === 'waiting'){
+      // 早押し失敗
+      if(timerId) clearTimeout(timerId);
+      state = 'idle';
+      setScreen('idle','早すぎ！もう一回挑戦しよう');
+      startBtn.disabled = false;
+    } else if(state === 'go'){
+      const t = Math.round(performance.now() - startTime);
+      lastEl.textContent = t;
+      best = (best===null) ? t : Math.min(best, t);
+      bestEl.textContent = best;
+      count++;
+      countEl.textContent = count;
+      state = 'idle';
+      setScreen('idle','記録：' + t + ' ms！ Startで再挑戦');
+      startBtn.disabled = false;
+    }
+  });
+
+  startBtn.addEventListener('click', start);
+  resetBtn.addEventListener('click', ()=>{
+    best = null; lastEl.textContent = '–'; bestEl.textContent = '–'; count = 0; countEl.textContent = 0; reset();
+  });
+})();
+</script>
+</body>
+</html>

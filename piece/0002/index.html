@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>星あつめゲーム</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root { --main:#0077cc; --bg:#e6f3ff; --wall:#cfe0ff; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); font-family:"Helvetica Neue","Arial",sans-serif; display:grid; place-items:center; height:100vh; color:#333; }
+  .wrap { background:#fff; width:min(560px,94vw); border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.12); overflow:hidden; }
+  header { background:var(--main); color:#fff; text-align:center; padding:12px 16px; font-weight:700; }
+  .pad { padding:14px 16px; }
+  .hud { display:flex; gap:12px; }
+  .stat { flex:1; background:#f4f8ff; border:1px solid #cfe4ff; border-radius:10px; padding:8px; text-align:center; }
+  .stat b { color:var(--main); font-size:18px; }
+  .board { margin-top:12px; width:100%; aspect-ratio: 1 / 1; background: #f8fbff; border:2px solid #cfe4ff; border-radius:12px; position:relative; overflow:hidden; }
+  .cell { position:absolute; }
+  .player { width:24px; height:24px; background:var(--main); border-radius:6px; }
+  .star { width:24px; height:24px; display:grid; place-items:center; font-size:18px; }
+  .wall { background:var(--wall); border:1px solid #b8d1ff; border-radius:6px; }
+  .tip { color:#555; margin-top:8px; }
+  button { margin-top:8px; width:100%; padding:10px; border:none; border-radius:10px; background:var(--main); color:#fff; font-size:16px; cursor:pointer; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>⭐ 星あつめ（矢印キーで操作）</header>
+    <div class="pad">
+      <div class="hud">
+        <div class="stat">スコア<br><b id="score">0</b></div>
+        <div class="stat">ベスト<br><b id="best">0</b></div>
+        <div class="stat">残り時間<br><b id="time">45</b> s</div>
+      </div>
+      <div id="board" class="board" tabindex="0" aria-label="ゲームボード"></div>
+      <button id="restart">Restart</button>
+      <p class="tip">🎮 操作：←↑→↓（ボードを一度クリックすると操作しやすいよ）</p>
+    </div>
+  </div>
+<script>
+(() => {
+  const board = document.getElementById('board');
+  const scoreEl = document.getElementById('score');
+  const bestEl = document.getElementById('best');
+  const timeEl = document.getElementById('time');
+  const restartBtn = document.getElementById('restart');
+
+  // 盤設定（10×10 グリッド）
+  const N = 10;
+  let cellSize = 0;
+
+  // 状態
+  let player = {x:1, y:1};
+  let star = {x:8, y:8};
+  let walls = []; // {x,y,w,h}（w,h はセル数）
+  let score=0, best=0, timeLeft=45, timer=null, playing=false;
+
+  function resize(){
+    const rect = board.getBoundingClientRect();
+    cellSize = rect.width / N;
+    renderAll();
+  }
+  new ResizeObserver(resize).observe(board);
+
+  function place(el, x,y, w=1,h=1){
+    el.style.left = (x*cellSize)+'px';
+    el.style.top = (y*cellSize)+'px';
+    el.style.width = (w*cellSize)+'px';
+    el.style.height = (h*cellSize)+'px';
+  }
+
+  function createWalls(){
+    // 簡単な迷路っぽい壁
+    walls = [
+      {x:0,y:0,w:10,h:1}, {x:0,y:9,w:10,h:1}, {x:0,y:0,w:1,h:10}, {x:9,y:0,w:1,h:10},
+      {x:3,y:2,w:1,h:5}, {x:6,y:1,w:1,h:6}, {x:2,y:6,w:4,h:1}, {x:5,y:3,w:3,h:1}
+    ];
+  }
+
+  const els = {
+    player: document.createElement('div'),
+    star: document.createElement('div'),
+    walls: []
+  };
+
+  function setupDOM(){
+    board.innerHTML='';
+    els.player.className='cell player';
+    board.appendChild(els.player);
+    els.star.className='cell star'; els.star.textContent='⭐';
+    board.appendChild(els.star);
+    els.walls = walls.map(w => {
+      const e = document.createElement('div');
+      e.className='cell wall';
+      board.appendChild(e); return e;
+    });
+  }
+
+  function renderAll(){
+    place(els.player, player.x, player.y);
+    place(els.star, star.x, star.y);
+    walls.forEach((w,i)=> place(els.walls[i], w.x, w.y, w.w, w.h));
+  }
+
+  function blocked(nx, ny){
+    // ボード外
+    if(nx<0||ny<0||nx>=N||ny>=N) return true;
+    // 壁当たり
+    return walls.some(w => nx>=w.x && nx<w.x+w.w && ny>=w.y && ny<w.y+w.h);
+  }
+
+  function move(dx,dy){
+    if(!playing) return;
+    const nx = player.x + dx;
+    const ny = player.y + dy;
+    if(!blocked(nx,ny)){
+      player.x = nx; player.y = ny; renderAll();
+      // 星取得
+      if(player.x===star.x && player.y===star.y){
+        score++; scoreEl.textContent=score;
+        // 新しい星をランダム配置（壁やプレイヤーと重ならない）
+        let rx, ry;
+        do {
+          rx = Math.floor(Math.random()*N);
+          ry = Math.floor(Math.random()*N);
+        } while(blocked(rx,ry) || (rx===player.x && ry===player.y));
+        star.x=rx; star.y=ry; renderAll();
+      }
+    }
+  }
+
+  function keyHandler(e){
+    const k = e.key;
+    if(k==='ArrowLeft') move(-1,0);
+    if(k==='ArrowRight') move(1,0);
+    if(k==='ArrowUp') move(0,-1);
+    if(k==='ArrowDown') move(0,1);
+  }
+
+  function start(){
+    score=0; scoreEl.textContent=0; timeLeft=45; timeEl.textContent=timeLeft;
+    player={x:1,y:1}; star={x:8,y:8}; createWalls(); setupDOM(); resize();
+    if(timer) clearInterval(timer);
+    playing=true;
+    timer = setInterval(()=>{
+      timeLeft--; timeEl.textContent=timeLeft;
+      if(timeLeft<=0) end();
+    },1000);
+    board.focus();
+  }
+
+  function end(){
+    playing=false;
+    clearInterval(timer);
+    if(score>best){ best=score; bestEl.textContent=best; }
+    alert('終了！ スコア：'+score);
+  }
+
+  restartBtn.addEventListener('click', start);
+  window.addEventListener('keydown', keyHandler);
+  // 初期開始
+  start();
+})();
+</script>
+</body>
+</html>
