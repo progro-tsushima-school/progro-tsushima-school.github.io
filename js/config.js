@@ -26,7 +26,7 @@ export const members = [
     name: "M.T",
     icon: "images/human_icon/human_icon_PG99001.png",
     role: "teacher",
-    link: "students/99001.html"
+    link: "students/99001/main.html"
   }
 ];
 
