@@ -1,32 +1,32 @@
 // js/config.js
 export const members = [
+  // {
+  //   progroId: "PG001",
+  //   name: "山田 太郎",
+  //   icon: "images/human_icon/human_icon002.png",
+  //   role: "student", // student | alumni | teacher
+  //   link: "students/sample.html"
+  // },
+  // {
+  //   progroId: "PG002",
+  //   name: "佐藤 花子",
+  //   icon: "images/human_icon/human_icon001.png",
+  //   role: "student",
+  //   link: "profile/sato.html"
+  // },
+  // {
+  //   progroId: "PG101",
+  //   name: "鈴木 一郎",
+  //   icon: "images/human_icon/human_icon001.png",
+  //   role: "alumni",
+  //   link: "profile/suzuki.html"
+  // },
   {
-    progroId: "PG001",
-    name: "山田 太郎",
-    icon: "images/icons/user1.png",
-    role: "student", // student | alumni | teacher
-    link: "profile/yamada.html"
-  },
-  {
-    progroId: "PG002",
-    name: "佐藤 花子",
-    icon: "images/icons/user2.png",
-    role: "student",
-    link: "profile/sato.html"
-  },
-  {
-    progroId: "PG101",
-    name: "鈴木 一郎",
-    icon: "images/icons/user3.png",
-    role: "alumni",
-    link: "profile/suzuki.html"
-  },
-  {
-    progroId: "PG201",
-    name: "田中 先生",
-    icon: "images/icons/teacher1.png",
+    progroId: "PG99001",
+    name: "M.T",
+    icon: "images/human_icon/human_icon_PG99001.png",
     role: "teacher",
-    link: "profile/tanaka.html"
+    link: "students/99001.html"
   }
 ];
 

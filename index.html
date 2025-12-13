@@ -2,20 +2,53 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>Members</title>
+  <title>プログロ作品ページ</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
 <header class="header">
-  <div class="logo">マイコン</div>
-  <nav>
-    <a href="#">Home</a>
-  </nav>
+  <div class="header-left">
+    <a href="./" class="logo">
+      <img src="images/progro_icon_gif.gif" alt="ProGro Logo" class="header-logo" />
+    </a>
+
+    <div class="header-text">
+      <h1>プログロ作品ページ</h1>
+      <p>ProGro Students Works Showcase</p>
+    </div>
+  </div>
 </header>
 
 <main>
+  <section class="intro">
+    <h2>プログロ作品ページについて</h2>
+    <p>
+      本ページは、プログロ（ProGro）に在籍する生徒および卒業生、講師が制作したプログラミング作品を紹介するページです。<br>
+      各アイコンをクリックすると、作品ページや詳細情報をご覧いただけます。
+    </p>
+  </section>
+
+
   <div id="members"></div>
+
+  <section class="link-section">
+  <h2>関連リンク</h2>
+
+  <div class="link-buttons">
+    <a class="link-button" href="https://www.progro-tsushima.com/" target="_blank">
+      <img src="images/HP_favicon.png" alt="公式HP">
+      <span>公式HP</span>
+    </a>
+
+    <a class="link-button" href="https://s3.ap-northeast-1.amazonaws.com/progro-tsushima.com/programming-testing/index.html" target="_blank">
+      <img src="images/proken.png" alt="プロ検">
+      <span>プロ検 特設ページ</span>
+    </a>
+  </div>
+</section>
+
+
 </main>
 
 <script type="module" src="js/main.js"></script>
