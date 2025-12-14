@@ -1,5 +1,5 @@
 // js/main.js
-import { members, roleLabels } from "./config.js?v=2025-12-14";
+import { members, roleLabels } from "./config.js?v=2025-12-14-01";
 
 const container = document.getElementById("members");
 
