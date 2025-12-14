@@ -23,8 +23,8 @@ export const members = [
   },
   {
     progroId: "PG25002",
-    name: "●● ●●",
-    icon: "images/human_icon/human_icon002.png",
+    name: "H H",
+    icon: "images/human_icon/human_icon_PG25002.png",
     role: "student",
     link: "students/25002/main.html"
   },
