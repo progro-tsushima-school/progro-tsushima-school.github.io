@@ -1,0 +1,543 @@
+body {
+  margin: 0;
+  font-family: "Helvetica", "メイリオ", sans-serif;
+  background: #fff;
+  color: #333;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between; /* 左右に分離 */
+  align-items: center;
+  height: 100px;
+  padding: 0 24px;
+  border-bottom: 2px solid #ccc;
+  box-sizing: border-box;
+}
+
+.header-logo {
+  height: 100%;              /* ← ヘッダーの高さに合わせる */
+  /* max-height: 48px;          大きくなりすぎ防止（任意） */
+  width: auto;
+  display: block;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo img {
+  height: 48px;
+  width: auto;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.header-text p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #777;
+}
+
+.logo {
+  /* border: 1px solid #999; */
+  padding: 8px 16px;
+}
+
+main {
+  padding: 24px;
+}
+
+.role-section {
+  margin-bottom: 40px;
+}
+
+.role-section h2 {
+  margin-bottom: 12px;
+  font-size: 20px;
+  border-left: 4px solid #000;
+  padding-left: 8px;
+}
+
+.member-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.member-card {
+  width: 120px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.member-card img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  object-fit: cover;
+}
+
+.member-card .name {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.member-card .id {
+  font-size: 12px;
+  color: #777;
+}
+
+
+.link-section {
+  margin-top: 60px;
+  padding: 40px 24px;
+  background: #f9f9f9;
+}
+
+.link-section h2 {
+  text-align: left;
+  margin-bottom: 24px;
+  font-size: 18px;
+}
+
+.link-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.link-button {
+   /* 可変幅にするため固定幅・高さを削除。
+     inline-flex にしてコンテンツ幅に合わせてボタン幅が変わるようにします。 */
+   display: inline-flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: 12px;
+
+   padding: 12px 16px;
+   background: #fff;
+   border: 1px solid #ddd;
+   border-radius: 12px;
+   text-decoration: none;
+   color: #333;
+   box-sizing: border-box;
+
+   transition: transform 0.2s, box-shadow 0.2s;
+   /* 必要なら最小幅を設定（画像が極端に小さいときのため） */
+   min-width: 48px;
+   min-height: 48px;
+}
+
+.link-button img {
+   /* 画像の横幅に合わせてボタン幅を変えたいので、画像は本来の比率を保ちつつ
+     横幅を自動にし、必要に応じて高さで制限します。 */
+   width: auto;
+   height: 75px; /* 高さを基準に揃える場合は固定、必要なければ auto に変更可 */
+   object-fit: contain;
+   display: block;
+}
+
+.link-button span {
+   text-align: center;
+   /* 長いテキストは改行して画像幅に収めたい場合は max-width を設定できます。
+     ここではボタンの自然幅に従うようにしてあります。 */
+   white-space: normal;
+}
+
+.link-button span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.link-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* 見出しがクリック可能だと分かるように */
+.role-title.toggle {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 矢印 */
+.role-title .arrow {
+  font-size: 12px;
+  color: #666;
+}
+
+/* 折りたたみ状態 */
+.member-grid.collapsed {
+  display: none;
+}
+
+/* details を作品ページっぽく整える */
+.role-section.alumni {
+  margin-bottom: 40px;
+}
+
+/* summary を見出しとしてデザイン */
+.role-summary {
+  font-size: 20px;
+  border-left: 4px solid #000;
+  padding: 0 0 0 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+/* 「クリックして開閉」補助テキスト */
+.summary-hint {
+  font-size: 12px;
+  color: #777;
+}
+
+/* summary のデフォルト三角を整える（任意） */
+.role-summary::marker {
+  font-size: 14px;
+}
+
+
+/* 作品紹介ページの説明 */
+.intro {
+  max-width: 900px;
+  margin: 32px 24px 48px;
+  padding: 0 16px;
+  text-align: left;
+}
+
+.intro h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.intro p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+/* 各作品項目の下に細いグレーの線を入れる */
+.work-item {
+  border-bottom: 1px solid #e6e6e6; /* 薄いグレー */
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+/* 最後の .work-item の下余白を少し大きめにしたい場合は個別に調整できます */
+.work-item:last-child {
+  margin-bottom: 24px;
+}
+
+
+/* =========================
+   生徒ページ
+========================= */
+
+.student-page {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+/* 上部プロフィール */
+.student-header {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.student-icon img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  /* border: 1px solid #ccc; */
+}
+
+.student-info h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.student-meta {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 16px;
+}
+
+.student-intro {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* 作品一覧 */
+.works-section h3 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  border-left: 4px solid #000;
+  padding-left: 8px;
+}
+
+.work-item {
+  margin-bottom: 32px;
+}
+
+.work-item h4 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.work-item p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.work-link {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #333;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+
+.work-link:hover {
+  background: #333;
+  color: #fff;
+}
+
+/* Home を右端に */
+.header-nav a {
+  color: #999;                 /* グレー文字 */
+  text-decoration: none;
+  font-size: 18px;
+}
+
+/* ホバー時だけ少し濃く */
+.header-nav a:hover {
+  color: #555;
+}
+
+/* -------------------------
+   レスポンシブ（スマホ）
+   HTML は変更せず、CSS 側のみで調整
+   - 768px 以下: タブレット〜小型画面用の調整
+   - 480px 以下: スマホ（小）向けの追加調整
+--------------------------*/
+
+@media (max-width: 768px) {
+  /* ヘッダーをコンパクトにして折り返しを許容 */
+  .header {
+    height: auto;
+    padding: 12px 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .header-logo {
+    height: auto;
+  }
+
+  .logo img {
+    height: 40px;
+  }
+
+  main {
+    padding: 16px;
+  }
+
+  /* intro を左右いっぱいに使えるように */
+  .intro {
+    max-width: 100%;
+    margin: 20px 12px 32px;
+    padding: 0 8px;
+  }
+
+  /* member-card の幅を柔軟にして折り返しを整える */
+  .member-card {
+    width: 100px;
+  }
+
+  /* link-buttons を縦並びにして指でタップしやすく */
+  .link-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* モバイルではボタンを横幅いっぱいにして見やすく */
+  .link-button {
+    display: flex; /* 行内表示から通常の block 表示に変更 */
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 12px;
+    gap: 12px;
+  }
+
+  .link-button img {
+    height: 48px;
+    width: 48px;
+    flex: 0 0 48px;
+  }
+
+  .link-button span {
+    text-align: left;
+    display: block;
+    flex: 1 1 auto;
+    font-size: 15px;
+  }
+
+  /* student page: アイコンを小さめにして縦並びに対応 */
+  .student-page {
+    padding: 0 12px;
+  }
+
+  .student-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .student-icon img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .student-info {
+    text-align: center;
+  }
+
+  /* works の間隔を詰める */
+  .work-item {
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* 更に狭い画面向けの微調整 */
+  .logo img {
+    height: 34px;
+  }
+
+  .intro {
+    margin: 16px 10px 24px;
+    padding: 0 6px;
+  }
+
+  .link-button span {
+    font-size: 14px;
+  }
+
+  .student-icon img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .member-card {
+    width: 90px;
+  }
+}
+
+
+/* =========================
+   作品詳細ページ
+========================= */
+
+.work-page {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+/* 上部：作品概要 */
+.work-header {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.work-image img {
+  width: 320px;
+  height: auto;
+  /* border: 1px solid #ccc; */
+}
+
+.work-info h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.work-meta {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 16px;
+}
+
+.work-meta a {
+  color: #555;
+  text-decoration: underline;
+}
+
+.work-description {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+/* メインリンク */
+.work-main-link {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #333;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+
+.work-main-link:hover {
+  background: #333;
+  color: #fff;
+}
+
+/* セクション共通 */
+.work-detail h3,
+.work-tech h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  border-left: 4px solid #000;
+  padding-left: 8px;
+}
+
+.work-detail p {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 8px;
+}
+
+/* 技術リスト */
+.tech-list {
+  list-style: disc;
+  padding-left: 20px;
+  font-size: 14px;
+}
