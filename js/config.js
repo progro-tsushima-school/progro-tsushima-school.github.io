@@ -14,20 +14,20 @@ export const members = [
   //   role: "student",
   //   link: "profile/sato.html"
   // },
-  {
-    progroId: "PG25001",
-    name: "●● ●●",
-    icon: "images/human_icon/human_icon001.png",
-    role: "student",
-    link: "students/25001/main.html"
-  },
-  {
-    progroId: "PG25002",
-    name: "H H",
-    icon: "images/human_icon/human_icon_PG25002.JPG",
-    role: "student",
-    link: "students/25002/main.html"
-  },
+  // {
+  //   progroId: "PG25001",
+  //   name: "Y S",
+  //   icon: "images/human_icon/human_icon001.png",
+  //   role: "student",
+  //   link: "students/25001/main.html"
+  // },
+  // {
+  //   progroId: "PG25002",
+  //   name: "H H",
+  //   icon: "images/human_icon/human_icon_PG25002.JPG",
+  //   role: "student",
+  //   link: "students/25002/main.html"
+  // },
   {
     progroId: "PG99001",
     name: "M.T",
