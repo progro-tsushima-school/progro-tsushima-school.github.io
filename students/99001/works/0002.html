@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Hit & Blow Master | プログロ作品ページ</title>
-  <link rel="stylesheet" href="../../../css/style.css" />
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 
@@ -21,7 +21,7 @@
     </div>
 
     <nav class="header-nav">
-      <a href="../">Home</a>
+      <a href="../../../index.html">Home</a>
     </nav>
   </header>
 
@@ -31,50 +31,65 @@
     <section class="work-header">
       <div class="work-image">
         <!-- 作品のスクリーンショット -->
-        <img src="../images/works/hit-and-blow.png" alt="Hit & Blow Master">
+        <img src="../images/HitAndBlow.png" alt="Hit & Blow Master">
       </div>
 
       <div class="work-info">
         <h2>Hit & Blow Master</h2>
 
         <p class="work-meta">
-          制作者：<a href="../students/yamada.html">山田 太郎</a><br>
-          分類：在籍生作品
+          制作者：<a href="../main.html">Taiga Masuda</a><br>
+          分類：講師作品
         </p>
 
         <p class="work-description">
-          Hit & Blow（数当てゲーム）を効率的に攻略するためのWebアプリケーションです。
+          Hit & Blow（数当てゲーム）を効率的に攻略するためのWebアプリケーションです。<br>
           これまでの入力履歴とフィードバックをもとに、次に試すべき数字候補を提示します。
         </p>
 
-        <a class="work-main-link" href="https://example.com" target="_blank">
-          作品を開く
+        <a class="work-main-link" href="https://github.com/Taiga10969/HitAndBlowMaster" target="_blank">
+          プロジェクトページへ
+        </a>
+        <a class="work-main-link" href="https://hitandblowmaster.onrender.com/" target="_blank">
+          アプリを使ってみる（起動に1分ほどかかります）
         </a>
       </div>
     </section>
 
     <!-- 詳細説明 -->
     <section class="work-detail">
+      <h3>背景</h3>
+
+      <p>
+        Hit & Blow は、数字の組み合わせを当てるゲームで、各試行ごとに「Hit（正しい数字が正しい位置にある）」と
+        「Blow（正しい数字が間違った位置にある）」の情報が与えられます。<br>
+        効率的に解を見つけるには、これらの情報を活用して探索空間を絞り込む必要があります。<br>
+        4桁の数字の場合、全組み合わせは5040通りありますが、頭を使わなければ中々解にたどり着けません。<br>
+        そこで、数字を入力するたびに、次に試すべき候補を提示するアプリを作成しようと思いました！
+      </p>
+      
       <h3>作品の詳細</h3>
 
       <p>
         本作品では、Hit & Blow の探索空間を効率的に絞り込むアルゴリズムを実装しました。
         毎回の入力結果（Hit / Blow）を制約条件として管理し、候補集合を更新しています。
       </p>
-
-      <p>
-        UI についても、初学者が直感的に操作できるよう、入力・履歴・次候補の表示を
-        明確に分けて設計しました。
-      </p>
     </section>
+
+    <!-- 画像  横幅いっぱいに表示-->
+    <section class="work-image">
+      <img src="../images/HitAndBlow_2.png" alt="Hit & Blow Master" style="width: 100%;">
+    </section>
+
 
     <!-- 技術要素 -->
     <section class="work-tech">
       <h3>使用技術</h3>
 
       <ul class="tech-list">
+        <li>Python</li>
+        <li>Flask</li>
         <li>HTML / CSS</li>
-        <li>JavaScript</li>
         <li>探索アルゴリズム（全探索・絞り込み）</li>
       </ul>
     </section>
