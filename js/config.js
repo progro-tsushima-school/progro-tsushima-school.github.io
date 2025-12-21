@@ -14,23 +14,23 @@ export const members = [
   //   role: "student",
   //   link: "profile/sato.html"
   // },
-  // {
-  //   progroId: "PG25001",
-  //   name: "Y S",
-  //   icon: "images/human_icon/human_icon001.png",
-  //   role: "student",
-  //   link: "students/25001/main.html"
-  // },
-  // {
-  //   progroId: "PG25002",
-  //   name: "H H",
-  //   icon: "images/human_icon/human_icon_PG25002.JPG",
-  //   role: "student",
-  //   link: "students/25002/main.html"
-  // },
+  {
+    progroId: "PG25001",
+    name: "Y.S.",
+    icon: "images/human_icon/human_icon_PG25001.jpg",
+    role: "student",
+    link: "students/25001/main.html"
+  },
+  {
+    progroId: "PG25002",
+    name: "H.H.",
+    icon: "images/human_icon/human_icon_PG25002.JPG",
+    role: "student",
+    link: "students/25002/main.html"
+  },
   {
     progroId: "PG99001",
-    name: "M.T",
+    name: "T.M.",
     icon: "images/human_icon/human_icon_PG99001.png",
     role: "teacher",
     link: "students/99001/main.html"
